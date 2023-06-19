@@ -46,7 +46,7 @@ const AppHeader = () => {
               </Typography>
             ) : (
               <div>
-                <Box display="flex">
+                <Box display="flex" alignItems="center">
                   <Typography variant="h6">
                     {user.displayName}
                   </Typography>
