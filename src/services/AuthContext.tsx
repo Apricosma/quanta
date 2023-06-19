@@ -37,7 +37,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const signInWithGoogleAuth = async () => {
     try {
-      const result: any = await signInWithGoogle();
+      // TODO: Figure out the correct typing for this lmfao
+      const result: any = await signInWithGoogle()
       setUser(result.user);
     } catch (error) {
       console.error('Google sign-in error:', error);
