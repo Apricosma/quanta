@@ -2,7 +2,7 @@ import "./styles/App.css";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
-import AppHeader from "./components/AppHeader";
+import Home from "./pages/Home";
 
 const darkTheme = createTheme({
   palette: {
@@ -29,7 +29,7 @@ function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline enableColorScheme />
-      <AppHeader />
+      <Home />
     </ThemeProvider>
   );
 }
