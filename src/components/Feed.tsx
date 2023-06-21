@@ -18,6 +18,7 @@ import {
   DocumentData,
 } from "firebase/firestore";
 import { useAuth } from "../hooks/useAuth";
+import PostCard from "./PostCard";
 
 const db = firestore;
 
@@ -103,13 +104,8 @@ const Feed: React.FC = () => {
     <Container>
       <PostForm onPostSubmit={handlePostSubmit} />
       {user ? (
-        posts.map(({ post, user, timestamp }, index) => (
-          <Card key={timestamp} sx={{ margin: "10px" }}>
-            <CardContent>
-              <Avatar src={user?.photoURL || ""} />
-              <Typography variant="body2">{`${user.name}: ${post}`}</Typography>
-            </CardContent>
-          </Card>
+        posts.map(({ post, user, timestamp }) => (
+          <PostCard key={timestamp} post={post} user={user} timestamp={timestamp} />
         ))
       ) : (
         <Typography variant="body2">Please log in to view the feed.</Typography>
