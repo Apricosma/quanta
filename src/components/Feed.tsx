@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
-  Avatar,
-  Card,
-  CardContent,
   Container,
   Typography,
 } from "@mui/material";
 import PostForm from "./PostForm";
-import { app, firestore } from "../services/firebaseConfig";
+import { firestore } from "../services/firebaseConfig";
 import {
   collection,
   addDoc,
@@ -15,7 +12,6 @@ import {
   query,
   orderBy,
   limit,
-  DocumentData,
 } from "firebase/firestore";
 import { useAuth } from "../hooks/useAuth";
 import PostCard from "./PostCard";
