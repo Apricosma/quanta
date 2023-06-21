@@ -109,7 +109,14 @@ const Feed: React.FC = () => {
   };
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" sx={{
+      background: "rgba(167, 157, 170, 0.13)",
+      borderRadius: "16px",
+      boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+      backdropFilter: "blur(10px)",
+      border: "1px solid rgba(167, 157, 170, 0.48)",
+      mt: 4
+    }}>
       <PostForm onPostSubmit={handlePostSubmit} />
       {user ? (
         posts.map(({ post, user, localTimeStamp, imageUrl }, index) => (

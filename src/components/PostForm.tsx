@@ -145,7 +145,7 @@ const PostForm: React.FC<PostFormProps> = ({ onPostSubmit }) => {
           {uploading && <CircularProgress size={20} />}
           <Button
             sx={{ px: 4 }}
-            variant="outlined"
+            variant="contained"
             type="submit"
             disabled={!user}
           >
