@@ -9,6 +9,7 @@ import {
   query,
   orderBy,
   limit,
+  serverTimestamp,
 } from "firebase/firestore";
 import { useAuth } from "../hooks/useAuth";
 import PostCard from "./PostCard";
@@ -24,7 +25,12 @@ interface User {
 interface Post {
   post: string;
   user: User;
-  timestamp: number;
+  localTimeStamp: number;
+  serverTimestamp: {
+    seconds: number;
+    nanoseconds: number;
+  };
+  imageUrl?: string | null;
 }
 
 const Feed: React.FC = () => {
@@ -65,22 +71,34 @@ const Feed: React.FC = () => {
           doc.data() as {
             post: string;
             user: User;
-            timestamp: number;
+            localTimeStamp: number;
+            serverTimestamp: {
+              seconds: number;
+              nanoseconds: number;
+            };
+            imageUrl?: string | null;
           }
       );
       setPosts(updatedPosts);
+      console.log("Triggered");
     });
 
     return () => unsubscribe();
   }, []);
 
-  const handlePostSubmit = async (data: { post: string; user: User }) => {
-    const { post, user } = data;
-    const timestamp = Date.now();
+  const handlePostSubmit = async (data: {
+    post: string;
+    user: User;
+    imageUrl: string | null;
+  }) => {
+    const { post, user, imageUrl } = data;
+
     const postData = {
       post,
       user,
-      timestamp,
+      imageUrl,
+      timestamp: serverTimestamp(),
+      localTimeStamp: Date.now(),
     };
     try {
       const docRef = await addDoc(collection(db, "posts"), postData);
@@ -91,15 +109,16 @@ const Feed: React.FC = () => {
   };
 
   return (
-    <Container>
+    <Container maxWidth="md">
       <PostForm onPostSubmit={handlePostSubmit} />
       {user ? (
-        posts.map(({ post, user, timestamp }) => (
+        posts.map(({ post, user, localTimeStamp, imageUrl }, index) => (
           <PostCard
-            key={timestamp}
+            key={index}
             post={post}
             user={user}
-            timestamp={timestamp}
+            timestamp={localTimeStamp}
+            imageUrl={imageUrl}
           />
         ))
       ) : (
