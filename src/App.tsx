@@ -4,7 +4,6 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
 import Home from "./pages/Home";
 import bg1 from "./assets/bg1.jpg";
-import bg2 from "./assets/bg2.jpg";
 import { Box } from "@mui/material";
 
 const darkTheme = createTheme({

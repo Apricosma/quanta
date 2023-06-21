@@ -30,7 +30,7 @@ const PostForm: React.FC<PostFormProps> = ({ onPostSubmit }) => {
 
   // image handling
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const { uploadImage, uploadProgress } = useImageUploader();
+  const { uploadImage } = useImageUploader();
   const [uploading, setUploading] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {

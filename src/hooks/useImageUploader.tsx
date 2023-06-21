@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { app } from '../services/firebaseConfig';
 import { ref, uploadBytesResumable, UploadTaskSnapshot, getDownloadURL } from 'firebase/storage';
 import { appStorage } from '../services/firebaseConfig';
 

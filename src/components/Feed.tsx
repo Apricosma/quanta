@@ -115,7 +115,8 @@ const Feed: React.FC = () => {
       boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
       backdropFilter: "blur(10px)",
       border: "1px solid rgba(167, 157, 170, 0.48)",
-      mt: 4
+      mt: 4,
+      pb: 2
     }}>
       <PostForm onPostSubmit={handlePostSubmit} />
       {user ? (
