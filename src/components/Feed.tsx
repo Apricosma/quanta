@@ -27,15 +27,15 @@ interface User {
   photoURL: string | null | undefined;
 }
 
+interface Post {
+  post: string;
+  user: User;
+  timestamp: number;
+}
+
 const Feed: React.FC = () => {
   const { user } = useAuth();
-  const [posts, setPosts] = useState<
-    {
-      post: string;
-      user: User;
-      timestamp: number;
-    }[]
-  >([]);
+  const [posts, setPosts] = useState<Post[]>([]);
 
   const loader = useRef<HTMLDivElement | null>(null);
 
