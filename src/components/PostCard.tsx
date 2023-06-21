@@ -40,7 +40,7 @@ const PostCard: React.FC<PostCardProps> = ({
       background: "rgba(167, 157, 170, 0.13)",
       boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
       backdropFilter: "blur(14.5px)",
-      border: "1px solid rgba(167, 157, 170, 0.48)"
+      border: "1px solid rgba(167, 157, 170, 0.48)",
     }}
     variant="outlined"
   >
@@ -54,7 +54,11 @@ const PostCard: React.FC<PostCardProps> = ({
       </Box>
       <Typography variant="body1">{post}</Typography>
       <Divider sx={{ my: 2 }}></Divider>
-      {imageUrl && <img src={imageUrl} alt="post" width="100%" height="100%" />}
+      <Box sx={{maxWidth: "100%"}}>
+        {imageUrl && (
+          <img src={imageUrl} alt="post" style={{maxWidth: "100%"}}/>
+        )}
+      </Box>
     </CardContent>
     <Typography sx={{ ml: 1 }} variant="caption" color="grey">
       {convertTimestamp(timestamp)}

@@ -22,11 +22,7 @@ const AppHeader: React.FC = () => {
 
   return (
     <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
-      <AppBar
-        position="static"
-        color="transparent"
-        sx={{ ...appbarStyle }}
-      >
+      <AppBar position="static" color="transparent" sx={{ ...appbarStyle }}>
         <Container>
           <Toolbar>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
