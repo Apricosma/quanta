@@ -33,7 +33,7 @@ const PostCard: React.FC<PostCardProps> = ({
   imageUrl,
 }) => (
 
-  <Card key={timestamp} sx={{ my: 2, mx: 4, p: 2 }}>
+  <Card key={timestamp} sx={{ my: 2, mx: 4, p: 2 }} variant="outlined" >
     <CardContent sx={{ display: "flex", flexDirection: "column" }}>
       <Box sx={{ display: "flex", alignItems: "center", mb: 2}}>
         <Avatar
