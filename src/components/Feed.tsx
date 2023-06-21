@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  Container,
-  Typography,
-} from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import PostForm from "./PostForm";
 import { firestore } from "../services/firebaseConfig";
 import {
@@ -77,10 +74,7 @@ const Feed: React.FC = () => {
     return () => unsubscribe();
   }, []);
 
-  const handlePostSubmit = async (data: {
-    post: string;
-    user: User;
-  }) => {
+  const handlePostSubmit = async (data: { post: string; user: User }) => {
     const { post, user } = data;
     const timestamp = Date.now();
     const postData = {
@@ -101,7 +95,12 @@ const Feed: React.FC = () => {
       <PostForm onPostSubmit={handlePostSubmit} />
       {user ? (
         posts.map(({ post, user, timestamp }) => (
-          <PostCard key={timestamp} post={post} user={user} timestamp={timestamp} />
+          <PostCard
+            key={timestamp}
+            post={post}
+            user={user}
+            timestamp={timestamp}
+          />
         ))
       ) : (
         <Typography variant="body2">Please log in to view the feed.</Typography>
