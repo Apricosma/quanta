@@ -6,20 +6,17 @@ import useCreatePost from "../hooks/useCreatePost";
 import { useAuth } from "../hooks/useAuth";
 import PostCard from "./PostCard";
 import { containerStyleProps } from "../styles/styleExports";
-import { collection, limit, orderBy, query, startAfter } from "firebase/firestore";
-import { firestore } from "../services/firebaseConfig";
 import useIntersectionObserver from "../hooks/useIntersectionObserver";
 
 const Feed: React.FC = () => {
   const { user } = useAuth();
   const [posts, isLoading, fetchMorePosts] = useFetchPosts();
-  console.log(posts);
 
   const createPost = useCreatePost();
 
   const handleIntersect = () => {
     if (!isLoading) {
-      fetchMorePosts(); // Trigger the fetchMorePosts callback
+      fetchMorePosts();
     }
   };
 
@@ -35,6 +32,7 @@ const Feed: React.FC = () => {
     if (isIntersecting) {
       handleIntersect();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isIntersecting]);
 
   return (
