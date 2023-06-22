@@ -10,9 +10,7 @@ import useIntersectionObserver from "../hooks/useIntersectionObserver";
 
 const Feed: React.FC = () => {
   const { user } = useAuth();
-  console.log(user?.uid);
   const [posts, isLoading, fetchMorePosts] = useFetchPosts();
-  console.log(posts);
   const createPost = useCreatePost();
 
   const handleIntersect = () => {

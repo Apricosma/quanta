@@ -17,7 +17,6 @@ const useDeletePost = () => {
     setIsSuccess(false);
 
     try {
-      console.log(postId);
       await deleteDoc(doc(db, "posts", postId))
 
       const storageRef = ref(appStorage, imageUrl);
