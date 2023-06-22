@@ -1,12 +1,6 @@
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { firestore } from "../services/firebaseConfig";
-
-interface User {
-  id: string;
-  name: string | null | undefined;
-  photoURL: string | null | undefined;
-}
-
+import { IUser as User } from "../types/IPost";
 interface CreatePostInput {
   post: string;
   user: User;

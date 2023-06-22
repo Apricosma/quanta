@@ -7,23 +7,7 @@ import {
   limit,
 } from "firebase/firestore";
 import { firestore } from "../services/firebaseConfig";
-
-interface User {
-  id: string;
-  name: string | null | undefined;
-  photoURL: string | null | undefined;
-}
-
-interface Post {
-  post: string;
-  user: User;
-  localTimeStamp: number;
-  serverTimestamp: {
-    seconds: number;
-    nanoseconds: number;
-  };
-  imageUrl?: string | null;
-}
+import { IPost as Post } from "../types/IPost";
 
 const db = firestore;
 
