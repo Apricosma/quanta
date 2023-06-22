@@ -7,6 +7,7 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
+import { cardStyleProps } from "../styles/styleExports";
 
 interface PostCardProps {
   post: string;
@@ -33,15 +34,7 @@ const PostCard: React.FC<PostCardProps> = ({
 }) => (
   <Card
     key={timestamp}
-    sx={{
-      my: 2,
-      mx: 4,
-      p: 2,
-      background: "rgba(167, 157, 170, 0.13)",
-      boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-      backdropFilter: "blur(14.5px)",
-      border: "1px solid rgba(167, 157, 170, 0.48)",
-    }}
+    sx={{ my: 2, mx: 4, p: 2, ...cardStyleProps }}
     variant="outlined"
   >
     <CardContent sx={{ display: "flex", flexDirection: "column", p: 1 }}>
@@ -54,9 +47,9 @@ const PostCard: React.FC<PostCardProps> = ({
       </Box>
       <Typography variant="body1">{post}</Typography>
       <Divider sx={{ my: 2 }}></Divider>
-      <Box sx={{maxWidth: "100%"}}>
+      <Box sx={{ maxWidth: "100%" }}>
         {imageUrl && (
-          <img src={imageUrl} alt="post" style={{maxWidth: "100%"}}/>
+          <img src={imageUrl} alt="post" style={{ maxWidth: "100%" }} />
         )}
       </Box>
     </CardContent>
