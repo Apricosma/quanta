@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Container, Typography } from "@mui/material";
 import PostForm from "./PostForm";
 import useFetchPosts from "../hooks/useFetchPosts";
@@ -6,35 +6,36 @@ import useCreatePost from "../hooks/useCreatePost";
 import { useAuth } from "../hooks/useAuth";
 import PostCard from "./PostCard";
 import { containerStyleProps } from "../styles/styleExports";
+import { collection, limit, orderBy, query, startAfter } from "firebase/firestore";
+import { firestore } from "../services/firebaseConfig";
+import useIntersectionObserver from "../hooks/useIntersectionObserver";
 
 const Feed: React.FC = () => {
   const { user } = useAuth();
-  const posts = useFetchPosts();
+  const [posts, isLoading, fetchMorePosts] = useFetchPosts();
   console.log(posts);
 
   const createPost = useCreatePost();
 
-  const loader = useRef<HTMLDivElement | null>(null);
-
-  const handleObserver: IntersectionObserverCallback = (entities) => {
-    const target = entities[0];
-    if (target.isIntersecting) {
-      // Add more posts if needed
+  const handleIntersect = () => {
+    if (!isLoading) {
+      fetchMorePosts(); // Trigger the fetchMorePosts callback
     }
   };
 
+  const observerOptions = {
+    root: null,
+    rootMargin: "20px",
+    threshold: 1.0,
+  };
+
+  const [loaderRef, isIntersecting] = useIntersectionObserver(observerOptions);
+
   useEffect(() => {
-    const options = {
-      root: null,
-      rootMargin: "20px",
-      threshold: 1.0,
-    };
-    // Create an intersection observer
-    const observer = new IntersectionObserver(handleObserver, options);
-    if (loader.current) {
-      observer.observe(loader.current);
+    if (isIntersecting) {
+      handleIntersect();
     }
-  }, []);
+  }, [isIntersecting]);
 
   return (
     <Container maxWidth="md" sx={{ ...containerStyleProps, mt: 4, pb: 2 }}>
@@ -52,7 +53,7 @@ const Feed: React.FC = () => {
       ) : (
         <Typography variant="body2">Please log in to view the feed.</Typography>
       )}
-      <div ref={loader} />
+      <div ref={loaderRef} />
     </Container>
   );
 };

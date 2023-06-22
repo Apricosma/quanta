@@ -5,6 +5,7 @@ export interface IUser {
 }
 
 export interface IPost extends IUser {
+  [x: string]: unknown;
   post: string;
   user: IUser;
   localTimeStamp: number;
