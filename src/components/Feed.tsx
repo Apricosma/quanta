@@ -10,8 +10,9 @@ import useIntersectionObserver from "../hooks/useIntersectionObserver";
 
 const Feed: React.FC = () => {
   const { user } = useAuth();
+  console.log(user?.uid);
   const [posts, isLoading, fetchMorePosts] = useFetchPosts();
-
+  console.log(posts);
   const createPost = useCreatePost();
 
   const handleIntersect = () => {
@@ -32,22 +33,25 @@ const Feed: React.FC = () => {
     if (isIntersecting) {
       handleIntersect();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isIntersecting]);
 
   return (
     <Container maxWidth="md" sx={{ ...containerStyleProps, mt: 4, pb: 2 }}>
       <PostForm onPostSubmit={createPost} />
       {user ? (
-        posts.map(({ post, user, localTimeStamp, imageUrl }, index) => (
-          <PostCard
-            key={index}
-            post={post}
-            user={user}
-            timestamp={localTimeStamp}
-            imageUrl={imageUrl}
-          />
-        ))
+        posts.map(
+          ({ id: docId, user: postUser, localTimeStamp, ...postProps }) => (
+            <PostCard
+              key={docId}
+              docId={docId}
+              postUser={postUser}
+              localTimestamp={localTimeStamp}
+              {...postProps}
+              isOwnPost={postUser.id === user?.uid}
+            />
+          )
+        )
       ) : (
         <Typography variant="body2">Please log in to view the feed.</Typography>
       )}

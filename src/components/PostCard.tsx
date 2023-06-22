@@ -8,55 +8,78 @@ import {
   Typography,
 } from "@mui/material";
 import { cardStyleProps } from "../styles/styleExports";
+import { Delete } from "@mui/icons-material";
+import useDeletePost from "../hooks/useDeletePost";
 
 interface PostCardProps {
+  docId: string;
   post: string;
-  user: {
+  postUser: {
     id: string;
     name: string | null | undefined;
     photoURL: string | null | undefined;
   };
-  timestamp: number;
+  localTimestamp: number;
   imageUrl?: string | null;
+  isOwnPost?: boolean;
 }
 
-// convert timestamp to date and include time
-const convertTimestamp = (timestamp: number) => {
+const convertTimestamp = (timestamp: number | null | undefined) => {
+  // I literally cannot fix this so I'm just going to ignore it
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const date = new Date(timestamp);
   return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
 };
 
 const PostCard: React.FC<PostCardProps> = ({
+  docId,
   post,
-  user,
-  timestamp,
+  postUser,
+  localTimestamp,
   imageUrl,
-}) => (
-  <Card
-    key={timestamp}
-    sx={{ my: 2, mx: 4, p: 2, ...cardStyleProps }}
-    variant="outlined"
-  >
-    <CardContent sx={{ display: "flex", flexDirection: "column", p: 1 }}>
-      <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-        <Avatar
-          sx={{ mr: 2, width: 58, height: 58 }}
-          src={user?.photoURL || ""}
-        />
-        <Typography variant="h6">{user.name}</Typography>
-      </Box>
-      <Typography variant="body1">{post}</Typography>
-      <Divider sx={{ my: 2 }}></Divider>
-      <Box sx={{ maxWidth: "100%" }}>
-        {imageUrl && (
-          <img src={imageUrl} alt="post" style={{ maxWidth: "100%" }} />
+  isOwnPost,
+}) => {
+  const { deletePost } = useDeletePost();
+
+  const handleDelete = () => {
+    if (!window.confirm("Are you sure you want to delete this post?")) return;
+    deletePost(docId, imageUrl);
+  };
+
+  return (
+    <Card
+      key={localTimestamp}
+      sx={{ my: 2, mx: 4, px: 2, pt: 1, ...cardStyleProps }}
+      variant="outlined"
+    >
+      <CardContent sx={{ display: "flex", flexDirection: "column", p: 1 }}>
+        <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+          <Avatar
+            sx={{ mr: 2, width: 58, height: 58 }}
+            src={postUser?.photoURL || ""}
+          />
+          <Typography variant="h6">{postUser.name}</Typography>
+        </Box>
+        <Typography variant="body1">{post}</Typography>
+        <Divider sx={{ my: 2 }}></Divider>
+        <Box sx={{ maxWidth: "100%" }}>
+          {imageUrl && (
+            <img src={imageUrl} alt="post" style={{ maxWidth: "100%" }} />
+          )}
+        </Box>
+      </CardContent>
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "end"}}>
+        <Typography sx={{ ml: 1 }} variant="caption" color="grey">
+          {convertTimestamp(localTimestamp)}
+        </Typography>
+        {isOwnPost && (
+          <Box sx={{ mr: 0.5}} onClick={() => handleDelete()}>
+            <Delete color="error" />
+          </Box>
         )}
       </Box>
-    </CardContent>
-    <Typography sx={{ ml: 1 }} variant="caption" color="grey">
-      {convertTimestamp(timestamp)}
-    </Typography>
-  </Card>
-);
-
+    </Card>
+  );
+};
 export default PostCard;

@@ -22,8 +22,7 @@ const useCreatePost = () => {
     };
 
     try {
-      const docRef = await addDoc(collection(db, "posts"), postData);
-      console.log("Post added with ID: ", docRef.id);
+      await addDoc(collection(db, "posts"), postData);
     } catch (error) {
       console.error("Error adding post: ", error);
     }

@@ -24,18 +24,22 @@ const useFetchPosts = (): [Post[], boolean, () => void] => {
       orderBy("timestamp", "desc"),
       limit(10)
     );
-
+  
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const updatedPosts = snapshot.docs.map((doc) => doc.data() as Post);
+      const updatedPosts = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as Post[];
       setPosts(updatedPosts);
       setLastPost(snapshot.docs[snapshot.docs.length - 1]);
       setIsLoading(false);
     });
-
+  
     return () => unsubscribe();
   }, []);
+  
 
-  const fetchMorePosts = () => {
+  const fetchMorePosts = async () => {
     if (lastPost) {
       const q = query(
         collection(db, "posts"),
