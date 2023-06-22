@@ -1,41 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { Container, Typography } from "@mui/material";
 import PostForm from "./PostForm";
-import { firestore } from "../services/firebaseConfig";
-import {
-  collection,
-  addDoc,
-  onSnapshot,
-  query,
-  orderBy,
-  limit,
-  serverTimestamp,
-} from "firebase/firestore";
+import useFetchPosts from "../hooks/useFetchPosts";
+import useCreatePost from "../hooks/useCreatePost";
 import { useAuth } from "../hooks/useAuth";
 import PostCard from "./PostCard";
 
-const db = firestore;
-
-interface User {
-  id: string;
-  name: string | null | undefined;
-  photoURL: string | null | undefined;
-}
-
-interface Post {
-  post: string;
-  user: User;
-  localTimeStamp: number;
-  serverTimestamp: {
-    seconds: number;
-    nanoseconds: number;
-  };
-  imageUrl?: string | null;
-}
-
 const Feed: React.FC = () => {
   const { user } = useAuth();
-  const [posts, setPosts] = useState<Post[]>([]);
+  const posts = useFetchPosts();
+  console.log(posts);
+  
+  const createPost = useCreatePost();
 
   const loader = useRef<HTMLDivElement | null>(null);
 
@@ -59,55 +35,6 @@ const Feed: React.FC = () => {
     }
   }, []);
 
-  useEffect(() => {
-    const q = query(
-      collection(db, "posts"),
-      orderBy("timestamp", "desc"),
-      limit(10)
-    );
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const updatedPosts = snapshot.docs.map(
-        (doc) =>
-          doc.data() as {
-            post: string;
-            user: User;
-            localTimeStamp: number;
-            serverTimestamp: {
-              seconds: number;
-              nanoseconds: number;
-            };
-            imageUrl?: string | null;
-          }
-      );
-      setPosts(updatedPosts);
-      console.log("Triggered");
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  const handlePostSubmit = async (data: {
-    post: string;
-    user: User;
-    imageUrl: string | null;
-  }) => {
-    const { post, user, imageUrl } = data;
-
-    const postData = {
-      post,
-      user,
-      imageUrl,
-      timestamp: serverTimestamp(),
-      localTimeStamp: Date.now(),
-    };
-    try {
-      const docRef = await addDoc(collection(db, "posts"), postData);
-      console.log("Post added with ID: ", docRef.id);
-    } catch (error) {
-      console.error("Error adding post: ", error);
-    }
-  };
-
   return (
     <Container
       maxWidth="md"
@@ -121,7 +48,7 @@ const Feed: React.FC = () => {
         pb: 2,
       }}
     >
-      <PostForm onPostSubmit={handlePostSubmit} />
+      <PostForm onPostSubmit={createPost} />
       {user ? (
         posts.map(({ post, user, localTimeStamp, imageUrl }, index) => (
           <PostCard
