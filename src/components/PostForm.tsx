@@ -32,6 +32,7 @@ const PostForm: React.FC<PostFormProps> = ({ onPostSubmit }) => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const { uploadImage } = useImageUploader();
   const [uploading, setUploading] = useState(false);
+  const [selectedFileName, setSelectedFileName] = useState("");
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -54,6 +55,7 @@ const PostForm: React.FC<PostFormProps> = ({ onPostSubmit }) => {
         // cleanup
         setUploading(false);
         setImageFile(null);
+        setSelectedFileName("");
       }
 
       const postData = {
@@ -100,6 +102,7 @@ const PostForm: React.FC<PostFormProps> = ({ onPostSubmit }) => {
     }
 
     setImageFile(file);
+    setSelectedFileName(file.name); // Set the selected file name
     setError(null);
   };
 
@@ -138,7 +141,7 @@ const PostForm: React.FC<PostFormProps> = ({ onPostSubmit }) => {
               component="span"
             >
               <InsertPhoto color="primary" sx={{ mr: 1 }} />
-              Upload
+              {selectedFileName ? selectedFileName : "Upload"} {/* Display the selected file name if present */}
             </Button>
           </label>
           {error && <Typography color="error">{error}</Typography>}
