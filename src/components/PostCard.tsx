@@ -10,6 +10,7 @@ import {
 import { cardStyleProps } from "../styles/styleExports";
 import { Delete } from "@mui/icons-material";
 import useDeletePost from "../hooks/useDeletePost";
+import { useAuth } from "../hooks/useAuth";
 
 interface PostCardProps {
   docId: string;
@@ -41,6 +42,8 @@ const PostCard: React.FC<PostCardProps> = ({
   isOwnPost,
 }) => {
   const { deletePost } = useDeletePost();
+  const { user } = useAuth();
+  const isAdmin = user?.uid === import.meta.env.VITE_APP_ADMIN_UID;
 
   const handleDelete = () => {
     if (!window.confirm("Are you sure you want to delete this post?")) return;
@@ -73,11 +76,11 @@ const PostCard: React.FC<PostCardProps> = ({
         <Typography sx={{ ml: 1 }} variant="caption" color="grey">
           {convertTimestamp(localTimestamp)}
         </Typography>
-        {isOwnPost && (
+        {isOwnPost || isAdmin ? (
           <Box sx={{ mr: 0.5}} onClick={() => handleDelete()}>
             <Delete color="error" />
           </Box>
-        )}
+        ) : null}
       </Box>
     </Card>
   );

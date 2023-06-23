@@ -7,11 +7,12 @@ import { Container } from "@mui/material";
 import { useAuth } from "../hooks/useAuth";
 import SignInButton from "./SignIn";
 import UserSection from "./UserMenu";
+import icon from "../assets/quantaIcon.svg";
 
 const appbarStyle = {
   width: "85%",
   borderRadius: "0 0 25px 25px",
-  background: "rgba(167, 157, 170, 0.13)",
+  background: "rgba(167, 157, 170, 0.18)",
   boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
   backdropFilter: "blur(10px)",
   border: "1px solid rgba(167, 157, 170, 0.48)",
@@ -25,7 +26,8 @@ const AppHeader: React.FC = () => {
       <AppBar position="static" color="transparent" sx={{ ...appbarStyle }}>
         <Container>
           <Toolbar>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <img width={36} src={icon}></img>
+            <Typography color="#48D5F9" variant="h4" component="div" sx={{ flexGrow: 1, ml: 0.5, mt: 1 }}>
               Quanta
             </Typography>
             {!user ? <SignInButton /> : <UserSection user={user} />}

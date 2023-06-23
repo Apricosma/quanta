@@ -51,7 +51,7 @@ function App() {
           filter: "blur(4px)",
         }}
       />
-
+  
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <Home />
